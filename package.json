@@ -1,0 +1,37 @@
+{
+  "name": "gulp-tpl-var-placeholder",
+  "version": "1.0.0",
+  "description": "Useful before and after gulp-inline-css. Useful for emails.",
+  "main": "index.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Nashangban/gulp-tpl-var-placeholder"
+  },
+  "keywords": [
+    "gulpplugin",
+    "inline",
+    "css",
+    "html",
+    "email"
+  ],
+  "author": "zhanglijing",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Nashangban/gulp-tpl-var-placeholder/issues"
+  },
+  "homepage": "https://github.com/Nashangban/gulp-tpl-var-placeholder",
+  "dependencies": {
+    "gulp-util": "^3.0.0",
+    "through2": "^0.6.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-mocha": "^2.0.0",
+    "gulp-util": "^3.0.0",
+    "mocha": "*",
+    "should": "^4.6.0"
+  }
+}

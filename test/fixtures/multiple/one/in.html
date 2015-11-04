@@ -1,0 +1,26 @@
+<% import Enigma.Helpers.Sendmail %>
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+    <h1>Hi</h1>
+    <table>
+      <tr>
+        <td>
+          您好，<%= user[:display_name] |> escape %>
+          <br>
+          <br>
+          您刚刚在「哪上班」申请了找回密码，请点击下面的链接进行密码重置：
+          <br>
+          <%= link %>
+          <br><br>
+          如果这不是您的操作，请忽略这封邮件。
+          <br><br>谢谢,
+          <br>哪上班团队
+          <br><br>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
