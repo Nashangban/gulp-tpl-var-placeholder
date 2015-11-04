@@ -31,9 +31,8 @@ module.exports = function (options) {
 
         function editfile(html,options){
 
-            var temphtml = file.contents.toString();
+            var temphtml = '';
             var len = html.length;
-            var result = '';
             var tempresult = '';
             var i = 0;
             var save = false;
@@ -42,54 +41,67 @@ module.exports = function (options) {
 
             while (i < len)
             {
-              if(!save && html.charAt(i) == '<' && html.charAt(i+1) == '%'){
+              if(!save && html.charAt(i) == '<' && html.charAt(i + 1) == '%'){
                 save = true;
-                i=i+2;
-                continue;
-              }
-              if(save && html.charAt(i) == '%'&&html.charAt(i+1)=='>'){
-                save = false;
                 var random = getRandomString();
-
-                tempresult += '"' + random + '":' + ' "'+result + '",';
-                temphtml = temphtml.replace('<%'+result+'%>','{{{'+random+'}}}');
-                result = '';
-                i=i+2;
+                temphtml += '{{{' + random + '}}}';
+                tempresult += random + '/9';
+                i = i + 2;
+                continue;
+              }else if(save && html.charAt(i) == '%'&&html.charAt(i + 1) == '>'){
+                save = false;
+                tempresult += '/0';
+                i = i + 2;
                 continue;
               }
+
               if(save){
-                result += html.charAt(i);
+                tempresult += html.charAt(i);
               }
+
+              if(!save){
+                temphtml += html.charAt(i);
+              }
+
               i++;
             }
-            tempresult = tempresult.substring(0,tempresult.length-1);
-            fs.writeFileSync(filePath, '{ '+tempresult+' }');
+
+            fs.writeFileSync(filePath, tempresult);
           }
           if(options.takeInto) {
 
             var data = fs.readFileSync(filePath, 'utf-8');
-            if(data){
 
-              data = eval("(" + data + ")");
+            if(data){
+              var dataJson = {};
+              data = data.split('/0');
+              data.forEach( function(v,i,a){
+                 v = v.split('/9');
+                 dataJson[v[0]] = v[1];
+              });
 
               while (i < len)
               {
-                if(!save && html.charAt(i) == '{' && html.charAt(i+1) == '{' && html.charAt(i+2) == '{'){
+                if(!save && html.charAt(i) == '{' && html.charAt(i + 1) == '{' && html.charAt(i + 2) == '{'){
                   save = true;
-                  i=i+3;
+                  i = i + 3;
                   continue;
-                }else if(save && html.charAt(i) == '}' && html.charAt(i+1) == '}' && html.charAt(i+2) == '}'){
+                }else if(save && html.charAt(i) == '}' && html.charAt(i + 1) == '}' && html.charAt(i + 2) == '}'){
                   save = false;
-                  tempresult = data[result];
-
-                  temphtml = temphtml.replace('{{{'+result+'}}}','<%' + tempresult + '%>');
-                  result = '';
-                  i=i+3;
+                  temphtml += '<%' + dataJson[tempresult] + '%>';
+                  tempresult = '';
+                  i = i + 3;
                   continue;
                 }
+
                 if(save){
-                  result += html.charAt(i);
+                  tempresult += html.charAt(i);
                 }
+
+                if(!save){
+                  temphtml += html.charAt(i);
+                }
+
                 i++;
               }
 
