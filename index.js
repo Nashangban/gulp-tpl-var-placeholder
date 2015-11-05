@@ -8,7 +8,6 @@ var through2 = require('through2');
 
 module.exports = function (options) {
     return through2.obj(function (file, enc, cb) {
-
         options = options || {};
 
         var self = this;
@@ -27,10 +26,9 @@ module.exports = function (options) {
 
         var html = file.contents.toString();
 
-        editfile(html,options);
+        editfile(html, options);
 
-        function editfile(html,options){
-
+        function editfile(html, options) {
             var temphtml = '';
             var len = html.length;
             var tempresult = '';
@@ -104,17 +102,14 @@ module.exports = function (options) {
 
                 i++;
               }
-
             }
-            // fs.unlinkSync(filePath);
           }
-          newhtml = temphtml;
+            newhtml = temphtml;
         }
 
         function getRandomString() {
           const x = 2147483648;
-          return Math.floor(Math.random() * x).toString(36) +
-                 Math.abs(Math.floor(Math.random() * x) ^ Date.now()).toString(36);
+          return Math.floor(Math.random() * x).toString(36) + Math.abs(Math.floor(Math.random() * x) ^ Date.now()).toString(36);
         }
 
         file.contents = new Buffer(newhtml);
